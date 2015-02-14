@@ -1,0 +1,16 @@
+{
+  "name": "osmsketch",
+  "version": "0.0.0",
+  "description": "OSM sketch and drawing tool",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD",
+  "devDependencies": {
+    "gulp-bower": "0.0.10",
+    "gulp": "~3.8.11",
+    "bower": "~1.3.12"
+  }
+}

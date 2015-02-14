@@ -1,0 +1,16 @@
+{
+  "name": "osmsketch",
+  "version": "0.0.0",
+  "authors": [
+    "Maxim Dementyev <max@orofarne.ru>"
+  ],
+  "license": "BSD",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
