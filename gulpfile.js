@@ -3,6 +3,7 @@ var bower = require('gulp-bower');
 var sass = require('gulp-sass');
 var flatten = require('gulp-flatten');
 var rename = require("gulp-rename");
+var concat = require('gulp-concat');
 
 gulp.task('bower', function() {
 	return bower()
@@ -24,9 +25,17 @@ gulp.task('lib', ['bower'], function() {
 		.pipe(gulp.dest('./lib/js/'));
 });
 
-gulp.task('sass', function () {
+gulp.task('sass', ['lib'], function() {
 	// main.css
 	gulp.src('./scss/*.scss')
 		.pipe(sass({ includePaths: ['./lib/scss'], errLogToConsole: true }))
-		.pipe(gulp.dest('./css/'));
+		.pipe(gulp.dest('./dist/css/'));
 });
+
+gulp.task('js', ['lib'], function() {
+	gulp.src('./lib/js/*.js')
+		.pipe(concat('all.js'))
+		.pipe(gulp.dest('./dist/js'))
+});
+
+gulp.task('build', ['sass', 'js']);
