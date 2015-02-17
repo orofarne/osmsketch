@@ -11,39 +11,43 @@ gulp.task('bower', function() {
 	return bower()
 });
 
-gulp.task('lib', ['bower'], function() {
+gulp.task('lib_css', ['bower'], function() {
 	// CSS -> SCSS
-	gulp.src('./bower_components/*/dist/*.css')
+	return gulp.src('./bower_components/*/dist/*.css')
 		.pipe(flatten())
 		.pipe(rename(function (path) {
 			path.basename = '_' + path.basename;
 			path.extname = path.extname.replace('css', 'scss');
 		}))
 		.pipe(gulp.dest('./lib/scss/'));
+});
 
+gulp.task('lib_js', ['bower'], function() {
 	// JS
-	gulp.src(['./bower_components/*/*.min.js', './bower_components/*/dist/*.js', '!**/*-src.js'])
+	return gulp.src(['./bower_components/*/*.min.js', './bower_components/*/dist/*.js', '!**/*-src.js'])
 		.pipe(flatten())
 		.pipe(gulp.dest('./lib/js/'));
 });
 
+gulp.task('lib', ['lib_css', 'lib_js']);
+
 gulp.task('sass', ['lib'], function() {
 	// main.css
-	gulp.src('./scss/*.scss')
+	return gulp.src('./scss/*.scss')
 		.pipe(sass({ includePaths: ['./lib/scss'], errLogToConsole: true }))
 		.pipe(csso())
 		.pipe(gulp.dest('./dist/css/'));
 });
 
 gulp.task('js', ['lib'], function() {
-	gulp.src('./lib/js/*.js')
+	return gulp.src('./lib/js/*.js')
 		.pipe(concat('all.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('./dist/js'))
 });
 
 gulp.task('html', function() {
-	gulp.src('./html/*.html')
+	return gulp.src('./html/*.html')
 		.pipe(gulp.dest('./dist/html'));
 });
 
