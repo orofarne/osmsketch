@@ -6,6 +6,7 @@ var rename = require("gulp-rename");
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var csso = require('gulp-csso');
+var rev = require('gulp-rev');
 
 gulp.task('bower', function() {
 	return bower()
@@ -36,19 +37,21 @@ gulp.task('sass', ['lib'], function() {
 	return gulp.src('./scss/*.scss')
 		.pipe(sass({ includePaths: ['./lib/scss'], errLogToConsole: true }))
 		.pipe(csso())
+		.pipe(rev())
 		.pipe(gulp.dest('./dist/css/'));
 });
 
 gulp.task('js', ['lib'], function() {
 	return gulp.src('./lib/js/*.js')
-		.pipe(concat('all.js'))
+		.pipe(concat('lib.js'))
 		.pipe(uglify())
+		.pipe(rev())
 		.pipe(gulp.dest('./dist/js'))
 });
 
-gulp.task('html', function() {
+gulp.task('html', ['sass', 'js'], function() {
 	return gulp.src('./html/*.html')
-		.pipe(gulp.dest('./dist/html'));
+		.pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('build', ['sass', 'js', 'html']);
+gulp.task('build', ['html']);
