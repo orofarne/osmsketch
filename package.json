@@ -18,6 +18,7 @@
     "gulp-concat": "~2.5.0",
     "gulp-uglify": "~1.1.0",
     "gulp-csso": "~1.0.0",
-    "gulp-rev": "~3.0.1"
+    "gulp-rev": "~3.0.1",
+    "gulp-glob-html": "git+https://github.com/orofarne/gulp-glob-html.git"
   }
 }

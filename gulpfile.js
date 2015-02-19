@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp');
 var bower = require('gulp-bower');
 var sass = require('gulp-sass');
@@ -7,6 +9,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var csso = require('gulp-csso');
 var rev = require('gulp-rev');
+var globhtml = require('gulp-glob-html');
 
 gulp.task('bower', function() {
 	return bower()
@@ -51,6 +54,7 @@ gulp.task('js', ['lib'], function() {
 
 gulp.task('html', ['sass', 'js'], function() {
 	return gulp.src('./html/*.html')
+		.pipe(globhtml({ basePath: "../dist/" }))
 		.pipe(gulp.dest('./dist/'));
 });
 
