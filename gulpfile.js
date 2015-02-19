@@ -10,6 +10,8 @@ var uglify = require('gulp-uglify');
 var csso = require('gulp-csso');
 var rev = require('gulp-rev');
 var globhtml = require('gulp-glob-html');
+var clean = require('gulp-clean');
+var runSequence = require('run-sequence');
 
 gulp.task('bower', function() {
 	return bower()
@@ -30,6 +32,9 @@ gulp.task('lib_js', ['bower'], function() {
 	// JS
 	return gulp.src(['./bower_components/*/*.min.js', './bower_components/*/dist/*.js', '!**/*-src.js'])
 		.pipe(flatten())
+		.pipe(rename(function (path) {
+			path.basename = path.basename.toLowerCase();
+		}))
 		.pipe(gulp.dest('./lib/js/'));
 });
 
@@ -44,7 +49,7 @@ gulp.task('sass', ['lib'], function() {
 		.pipe(gulp.dest('./dist/css/'));
 });
 
-gulp.task('js', ['lib'], function() {
+gulp.task('js_lib', ['lib'], function() {
 	return gulp.src('./lib/js/*.js')
 		.pipe(concat('lib.js'))
 		.pipe(uglify())
@@ -52,10 +57,43 @@ gulp.task('js', ['lib'], function() {
 		.pipe(gulp.dest('./dist/js'))
 });
 
-gulp.task('html', ['sass', 'js'], function() {
+gulp.task('js', function() {
+	return gulp.src('./js/*.js')
+		.pipe(uglify())
+		.pipe(rev())
+		.pipe(gulp.dest('./dist/js'))
+});
+
+gulp.task('images', ['bower'], function() {
+	return gulp.src('./bower_components/**/images/*')
+		.pipe(flatten())
+		.pipe(gulp.dest('./dist/images/'));
+});
+
+gulp.task('icons', ['bower'], function() {
+	return gulp.src('./bower_components/**/icons/*')
+		.pipe(flatten())
+		.pipe(gulp.dest('./dist/icons/'));
+});
+
+gulp.task('html', ['sass', 'js', 'js_lib', 'images', 'icons'], function() {
 	return gulp.src('./html/*.html')
 		.pipe(globhtml({ basePath: "../dist/" }))
 		.pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('build', ['html']);
+gulp.task('clean_dist', function () {
+	return gulp.src('./dist', {read: false})
+		.pipe(clean());
+});
+
+gulp.task('clean_lib', function () {
+	return gulp.src('./lib', {read: false})
+		.pipe(clean());
+});
+
+gulp.task('clean', ['clean_lib', 'clean_dist']);
+
+gulp.task('build', function(callback) {
+	runSequence('clean','html', callback);
+});

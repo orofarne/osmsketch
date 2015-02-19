@@ -19,6 +19,8 @@
     "gulp-uglify": "~1.1.0",
     "gulp-csso": "~1.0.0",
     "gulp-rev": "~3.0.1",
-    "gulp-glob-html": "git+https://github.com/orofarne/gulp-glob-html.git"
+    "gulp-glob-html": "git+https://github.com/orofarne/gulp-glob-html.git",
+    "gulp-clean": "~0.3.1",
+    "run-sequence": "~1.0.2"
   }
 }
