@@ -29,18 +29,7 @@ gulp.task('lib_css', ['bower'], function() {
 		.pipe(gulp.dest('./lib/scss/'));
 });
 
-gulp.task('lib_js', ['bower'], function() {
-	// JS
-	return gulp.src([
-			'./bower_components/**/*.min.js',
-			'./bower_components/leaflet/dist/leaflet.js',
-			'./bower_components/leaflet-mappaint/dist/MapPaint.js'
-			])
-		.pipe(flatten())
-		.pipe(gulp.dest('./lib/js/'));
-});
-
-gulp.task('lib', ['lib_css', 'lib_js']);
+gulp.task('lib', ['lib_css']);
 
 gulp.task('sass', ['lib'], function() {
 	// main.css

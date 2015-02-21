@@ -16,6 +16,7 @@
 	"dependencies": {
 		"jquery": "2.1.x",
 		"leaflet": "0.7.x",
-		"leaflet-mappaint": "0.2.2"
+		"leaflet-mappaint": "0.2.2",
+		"leaflet-restoreview": "git+https://github.com/makinacorpus/Leaflet.RestoreView.git"
 	}
 }

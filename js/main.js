@@ -1,15 +1,27 @@
-$( document ).ready(function () {
-	var map = L.map('map', { zoomControl: false }).setView([55.889, 37.594], 13);
+"use strict";
 
+// @include impl/imgstore.js
+
+$( document ).ready(function () {
+	var map = L.map('map', { zoomControl: false });
+
+	// Leaflet.RestoreView plugin
+	if (!map.restoreView()) {
+		map.setView([55.889, 37.594], 13);
+	}
+
+	// Sputnik.ru layer
 	L.tileLayer('http://tiles.maps.sputnik.ru/{z}/{x}/{y}.png', {
 		attribution: ' © <a href="http://sputnik.ru">Спутник</a> | © <a href="http://www.openstreetmap.org/copyright">Openstreetmap</a>',
 		minZoom: 3,
 		maxZoom: 18
 	}).addTo(map);
 
+	var imgstore = new ImgStore(map);
+
+	// MapPaint save method for images
 	map.MapPaint.saveMethod = function(image, bounds) {
-		console.log({image: image, bounds: bounds});
-		L.imageOverlay(image, bounds).addTo(map);
+		imgstore.add(image, bounds);
 	}
 
 	var zoomControl = new L.Control.Zoom({ position: 'topleft' })
