@@ -21,6 +21,7 @@
     "gulp-rev": "~3.0.1",
     "gulp-glob-html": "git+https://github.com/orofarne/gulp-glob-html.git",
     "gulp-clean": "~0.3.1",
-    "run-sequence": "~1.0.2"
+    "run-sequence": "~1.0.2",
+    "gulp-preprocess": "~1.2.0"
   }
 }
