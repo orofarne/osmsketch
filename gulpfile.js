@@ -13,6 +13,8 @@ var globhtml = require('gulp-glob-html');
 var clean = require('gulp-clean');
 var runSequence = require('run-sequence');
 var preprocess = require('gulp-preprocess');
+var tar = require('gulp-tar');
+var gzip = require('gulp-gzip');
 
 gulp.task('bower', function() {
 	return bower()
@@ -79,5 +81,14 @@ gulp.task('clean_lib', function () {
 gulp.task('clean', ['clean_lib', 'clean_dist']);
 
 gulp.task('build', function(callback) {
-	runSequence('clean','html', callback);
+	return runSequence('clean','html', callback);
 });
+
+gulp.task('archive', ['build'], function () {
+	return gulp.src('dist/**')
+		.pipe(tar('dist.tar'))
+		.pipe(gzip())
+		.pipe(gulp.dest('.'));
+});
+
+gulp.task('default', ['build']);
