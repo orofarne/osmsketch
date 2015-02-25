@@ -15,6 +15,8 @@ var runSequence = require('run-sequence');
 var preprocess = require('gulp-preprocess');
 var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
+var watch = require('gulp-watch');
+var batch = require('gulp-batch');
 
 gulp.task('bower', function() {
 	return bower()
@@ -89,6 +91,12 @@ gulp.task('archive', ['build'], function () {
 		.pipe(tar('dist.tar'))
 		.pipe(gzip())
 		.pipe(gulp.dest('.'));
+});
+
+gulp.task('watch', function () {
+	watch('**/*.js', batch(function () {
+		gulp.start('build');
+	}));
 });
 
 gulp.task('default', ['build']);
