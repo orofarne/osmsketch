@@ -67,7 +67,12 @@ gulp.task('icons', ['bower'], function() {
 		.pipe(gulp.dest('./dist/icons/'));
 });
 
-gulp.task('html', ['sass', 'js', 'images', 'icons'], function() {
+gulp.task('img', function() {
+	return gulp.src('./img/*')
+		.pipe(gulp.dest('./dist/images/'));
+});
+
+gulp.task('html', ['sass', 'js', 'images', 'icons', 'img'], function() {
 	return gulp.src('./html/*.html')
 		.pipe(globhtml({ basePath: "../dist/" }))
 		.pipe(gulp.dest('./dist/'));
@@ -107,7 +112,7 @@ gulp.task('archive', ['build'], function () {
 		.pipe(gulp.dest('.'));
 });
 
-gulp.task('watch', ['build'], function () {
+gulp.task('watch', ['build_notify'], function () {
 	watch(['html/**', 'js/**', 'scss/**'], function () {
 		gulp.start('build_notify');
 	});

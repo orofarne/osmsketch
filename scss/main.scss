@@ -4,3 +4,10 @@ html, body, #map {
 	margin: 0 !important;
 	overflow: hidden;
 }
+
+.location-control {
+	cursor: pointer;
+	height: 28px;
+	width: 28px;
+	background: white url("../images/location.gif") no-repeat center center;
+}

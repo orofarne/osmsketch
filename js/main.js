@@ -62,8 +62,6 @@ $( document ).ready(function () {
 
 	// Location
 	function onLocationFound(e) {
-		console.log("onLocationFound(e)", e);
-
 		var radius = e.accuracy / 2;
 
 		L.circle(e.latlng, 0).addTo(map);
@@ -71,5 +69,23 @@ $( document ).ready(function () {
 	}
 
 	map.on('locationfound', onLocationFound);
-	map.locate();
+	map.locate({watch: true});
+
+	// Location button
+	var locationControl = L.Control.extend({
+		options: {
+			position: 'bottomleft'
+		},
+		onAdd: function (map) {
+			var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control location-control');
+			container.onclick = function () {
+				map.locate({setView: true, maxZoom: 17});
+			};
+			return container;
+		}
+	});
+
+	map.addControl(new locationControl());
+
+	// Auth button
 });
