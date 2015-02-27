@@ -3,6 +3,8 @@
 // @include impl/imgstore.js
 
 $( document ).ready(function () {
+	L.Icon.Default.imagePath = "/images";
+
 	var map = L.map('map', { zoomControl: false });
 
 	// Leaflet.RestoreView plugin
@@ -57,4 +59,17 @@ $( document ).ready(function () {
 
 	map.addControl(new paintControl());
 	map.addControl(zoomControl);
+
+	// Location
+	function onLocationFound(e) {
+		console.log("onLocationFound(e)", e);
+
+		var radius = e.accuracy / 2;
+
+		L.marker(e.latlng).addTo(map);
+		L.circle(e.latlng, radius).addTo(map);
+	}
+
+	map.on('locationfound', onLocationFound);
+	map.locate();
 });

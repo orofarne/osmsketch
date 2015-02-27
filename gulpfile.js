@@ -109,7 +109,7 @@ gulp.task('archive', ['build'], function () {
 });
 
 gulp.task('watch', function () {
-	watch(['bower.json', 'html/**', 'js/**', 'scss/**'], batch(function () {
+	watch(['html/**', 'js/**', 'scss/**'], batch(function () {
 		gulp.start('build_notify');
 	}));
 });
