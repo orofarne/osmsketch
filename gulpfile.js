@@ -17,6 +17,10 @@ var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
 var watch = require('gulp-watch');
 var batch = require('gulp-batch');
+var connect = require('gulp-connect');
+var NotifySend = require('node-notifier').NotifySend;
+
+var notifier = new NotifySend();
 
 gulp.task('bower', function() {
 	return bower()
@@ -86,6 +90,17 @@ gulp.task('build', function(callback) {
 	return runSequence('clean','html', callback);
 });
 
+gulp.task('notify_done', function() {
+	notifier.notify({
+		'title': 'Gulp',
+		'message': 'Done!'
+	});
+});
+
+gulp.task('build_notify', function(callback) {
+	return runSequence('build', 'notify_done', callback);
+});
+
 gulp.task('archive', ['build'], function () {
 	return gulp.src('dist/**')
 		.pipe(tar('dist.tar'))
@@ -94,9 +109,17 @@ gulp.task('archive', ['build'], function () {
 });
 
 gulp.task('watch', function () {
-	watch('**/*.js', batch(function () {
-		gulp.start('build');
+	watch(['bower.json', 'html/**', 'js/**', 'scss/**'], batch(function () {
+		gulp.start('build_notify');
 	}));
 });
+
+gulp.task('webserver', function() {
+	connect.server({
+		root: 'dist'
+	});
+});
+
+gulp.task('liveserver', ["watch", "webserver"]);
 
 gulp.task('default', ['build']);
