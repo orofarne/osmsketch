@@ -66,7 +66,7 @@ $( document ).ready(function () {
 
 		var radius = e.accuracy / 2;
 
-		L.marker(e.latlng).addTo(map);
+		L.circle(e.latlng, 0).addTo(map);
 		L.circle(e.latlng, radius).addTo(map);
 	}
 

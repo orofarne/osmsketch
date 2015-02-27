@@ -16,7 +16,6 @@ var preprocess = require('gulp-preprocess');
 var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
 var watch = require('gulp-watch');
-var batch = require('gulp-batch');
 var connect = require('gulp-connect');
 var NotifySend = require('node-notifier').NotifySend;
 
@@ -108,10 +107,10 @@ gulp.task('archive', ['build'], function () {
 		.pipe(gulp.dest('.'));
 });
 
-gulp.task('watch', function () {
-	watch(['html/**', 'js/**', 'scss/**'], batch(function () {
+gulp.task('watch', ['build'], function () {
+	watch(['html/**', 'js/**', 'scss/**'], function () {
 		gulp.start('build_notify');
-	}));
+	});
 });
 
 gulp.task('webserver', function() {
