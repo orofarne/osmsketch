@@ -100,4 +100,18 @@ $( document ).ready(function () {
 	map.addControl(new locationControl());
 
 	// Auth button
+	var authControl = L.Control.extend({
+		options: {
+			position: 'topright'
+		},
+		onAdd: function (map) {
+			var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control auth-control');
+			container.onclick = function () {
+				window.open("https://openstreetmap.org/");
+			};
+			return container;
+		}
+	});
+
+	map.addControl(new authControl());
 });
